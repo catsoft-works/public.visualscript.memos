@@ -1,0 +1,20 @@
+{
+    "name": "VisualScript.Editor.Memos",
+    "rootNamespace": "VisualScript.Editor.Memos",
+    "references": [
+        "GUID:deaf9cd92f08d4685998537f44136b7e",
+        "GUID:1c5e1808a1a3e413580dc3170b1d712d",
+        "GUID:254a235729d054d6b802b5aaafd20c69"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
