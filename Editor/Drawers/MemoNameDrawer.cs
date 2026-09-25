@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -29,9 +30,9 @@ namespace VisualScript.Editor.Memos
         private const string TIP_FAVORITE = "Toggle as favorite";
         private const string TIP_DROPDOWN = "Choose from the favorite list";
 
-        private static readonly IIcon ICON_FAVORITE_ON = new IconStarSolid(ColorTheme.Type.Yellow);
-        private static readonly IIcon ICON_FAVORITE_OFF = new IconStarOutline(ColorTheme.Type.TextLight);
-        private static readonly IIcon ICON_DROPDOWN = new IconDropdown(ColorTheme.Type.TextLight);
+        [NoAutoStaticsCleanup] private static readonly IIcon ICON_FAVORITE_ON = new IconStarSolid(ColorTheme.Type.Yellow);
+        [NoAutoStaticsCleanup] private static readonly IIcon ICON_FAVORITE_OFF = new IconStarOutline(ColorTheme.Type.TextLight);
+        [NoAutoStaticsCleanup] private static readonly IIcon ICON_DROPDOWN = new IconDropdown(ColorTheme.Type.TextLight);
 
         private const string KEY_MEMO_NAMES_FAVORITES = "vs:memos:favorites";
 

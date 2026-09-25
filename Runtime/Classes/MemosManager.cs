@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace VisualScript.Runtime.Memos
 {
     [AddComponentMenu("")]
-    public class MemosManager : Singleton<MemosManager>
+    public partial class MemosManager : Singleton<MemosManager>
     {
         private readonly struct Subscription
         {
@@ -31,7 +32,7 @@ namespace VisualScript.Runtime.Memos
 
         // EVENTS: --------------------------------------------------------------------------------
 
-        public static event Action EventChange;
+        [AutoStaticsCleanup] public static event Action EventChange;
 
         // PUBLIC METHODS: ------------------------------------------------------------------------
 

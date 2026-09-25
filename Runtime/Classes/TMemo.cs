@@ -9,11 +9,11 @@ namespace VisualScript.Runtime.Memos
         [NonSerialized] private T m_Value;
         [NonSerialized] private readonly Action<PropertyName> m_OnChange;
 
+        #if UNITY_EDITOR
+
         Type IMemo.Type => typeof(T);
 
         object IMemo.Value => this.m_Value;
-
-        #if UNITY_EDITOR
 
         string IMemo.EditorName => this.m_Name.ToString().Split(':')[0];
 

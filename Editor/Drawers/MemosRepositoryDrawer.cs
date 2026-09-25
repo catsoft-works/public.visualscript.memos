@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.Scripting.LifecycleManagement;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -12,11 +13,11 @@ namespace VisualScript.Editor.Memos
     [CustomPropertyDrawer(typeof(MemosRepository))]
     public class MemosRepositoryDrawer : PropertyDrawer
     {
-        private static readonly IIcon ICON_INFO = new IconInfoOutline(ColorTheme.Type.TextLight);
+        [NoAutoStaticsCleanup] private static readonly IIcon ICON_INFO = new IconInfoOutline(ColorTheme.Type.TextLight);
 
-        private static List<IMemo> Memos { get; } = new List<IMemo>();
+        [NoAutoStaticsCleanup] private static List<IMemo> Memos { get; } = new List<IMemo>();
 
-        private static VisualElement Container { get; set; }
+        [NoAutoStaticsCleanup] private static VisualElement Container { get; set; }
 
         // PAINT METHODS: -------------------------------------------------------------------------
 
