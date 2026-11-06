@@ -31,10 +31,10 @@ namespace VisualScript.Runtime.Memos
             }
         }
 
-        public TMemo(PropertyName name, Action<PropertyName> onChange)
+        public TMemo(PropertyName name, T value, Action<PropertyName> onChange)
         {
             this.m_Name = name;
-            this.m_Value = default;
+            this.m_Value = value;
             this.m_OnChange = onChange;
         }
 

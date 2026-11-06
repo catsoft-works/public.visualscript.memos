@@ -24,11 +24,6 @@ namespace VisualScript.Runtime.Memos
             return MemosManager.Get<GameObject>(this.m_Name.Value);
         }
 
-        public override U Get<U>(Args args)
-        {
-            return MemosManager.Get<U>(this.m_Name.Value);
-        }
-
         public override void Set(GameObject value, Args args)
         {
             MemosManager.Set(this.m_Name.Value, value);

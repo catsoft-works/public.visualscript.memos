@@ -24,6 +24,7 @@ namespace VisualScript.Runtime.Memos
         {
             values.Clear();
             List<GameObject> list = MemosManager.Get<List<GameObject>>(this.m_Name.Value);
+            if (list == null) return;
 
             int count = list.Count;
             for (int i = 0; i < count; ++i)

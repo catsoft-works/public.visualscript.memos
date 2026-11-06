@@ -2,24 +2,33 @@ using System;
 using System.Collections.Generic;
 using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace VisualScript.Runtime.Memos
 {
     [AddComponentMenu("")]
     public partial class MemosManager : Singleton<MemosManager>
     {
-        private readonly struct Subscription
+        private readonly struct Subscription : IDisposable
         {
             [NonSerialized] public readonly PropertyName name;
-            [NonSerialized] public readonly Action<Args> callback;
-            [NonSerialized] public readonly Args args;
+            [NonSerialized] private readonly Action<Args> callback;
+            [NonSerialized] private readonly Args args;
 
             public Subscription(PropertyName name, Action<Args> callback, Args args)
             {
                 this.name = name;
                 this.callback = callback;
-                this.args = args;
+                this.args = Args.Get(args);
             }
+
+            public void Invoke()
+            {
+                using Args newArgs = Args.Get(this.args);
+                this.callback?.Invoke(newArgs);
+            }
+
+            public void Dispose() => this.args?.Dispose();
         }
 
         // MEMBERS: -------------------------------------------------------------------------------
@@ -39,7 +48,7 @@ namespace VisualScript.Runtime.Memos
         public static T Get<T>(PropertyName name)
         {
             return Instance.m_Memos.TryGetValue(name, out IMemo memo)
-                ? memo is TMemo<T> memoTyped 
+                ? memo is TMemo<T> memoTyped
                     ? memoTyped.Value
                     : memo.Convert<T>()
                 : default;
@@ -53,10 +62,8 @@ namespace VisualScript.Runtime.Memos
                 return;
             }
 
-            memoTyped = new TMemo<T>(name, OnChange);
-            Instance.m_Memos.Add(name, memoTyped);
-
-            memoTyped.Value = value;
+            Instance.m_Memos[name] = new TMemo<T>(name, value, OnChange);
+            OnChange(name);
         }
 
         public static Guid Subscribe(PropertyName name, Action<Args> callback, Args args)
@@ -75,7 +82,8 @@ namespace VisualScript.Runtime.Memos
 
         public static void Unsubscribe(Guid subscriptionId)
         {
-            Instance.m_Subscriptions.Remove(subscriptionId);
+            Instance.m_Subscriptions.Remove(subscriptionId, out Subscription subscription);
+            subscription.Dispose();
         }
 
         // EDITOR METHODS: ------------------------------------------------------------------------
@@ -98,10 +106,27 @@ namespace VisualScript.Runtime.Memos
         {
             EventChange?.Invoke();
 
-            foreach (Subscription subscription in Instance.m_Subscriptions.Values)
+            Dictionary<Guid, Subscription> subscriptions = Instance.m_Subscriptions;
+            List<Guid> ids = ListPool<Guid>.Get();
+
+            try
             {
-                if (subscription.name != name) continue;
-                subscription.callback?.Invoke(subscription.args);
+                foreach (KeyValuePair<Guid, Subscription> entry in subscriptions)
+                {
+                    if (entry.Value.name == name) ids.Add(entry.Key);
+                }
+
+                foreach (Guid id in ids)
+                {
+                    if (subscriptions.TryGetValue(id, out Subscription subscription))
+                    {
+                        subscription.Invoke();
+                    }
+                }
+            }
+            finally
+            {
+                ListPool<Guid>.Release(ids);
             }
         }
     }

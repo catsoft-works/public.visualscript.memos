@@ -43,11 +43,13 @@ namespace VisualScript.Editor.Memos
         private static void OnAttachToPanel(AttachToPanelEvent panelEvent)
         {
             EditorApplication.playModeStateChanged += OnChangePlayMode;
+            ListenMemos(EditorApplication.isPlaying);
         }
 
         private static void OnDetachFromPanel(DetachFromPanelEvent panelEvent)
         {
-            EditorApplication.playModeStateChanged += OnChangePlayMode;
+            EditorApplication.playModeStateChanged -= OnChangePlayMode;
+            ListenMemos(false);
         }
 
         private static void OnChangePlayMode(PlayModeStateChange state)
@@ -55,11 +57,11 @@ namespace VisualScript.Editor.Memos
             switch (state)
             {
                 case PlayModeStateChange.EnteredPlayMode:
-                    MemosManager.EventChange += RefreshMemos;
+                    ListenMemos(true);
                     break;
 
                 case PlayModeStateChange.ExitingPlayMode:
-                    MemosManager.EventChange -= RefreshMemos;
+                    ListenMemos(false);
                     break;
 
                 case PlayModeStateChange.EnteredEditMode:
@@ -73,6 +75,12 @@ namespace VisualScript.Editor.Memos
         }
 
         // PRIVATE METHODS: -----------------------------------------------------------------------
+
+        private static void ListenMemos(bool listen)
+        {
+            MemosManager.EventChange -= RefreshMemos;
+            if (listen) MemosManager.EventChange += RefreshMemos;
+        }
 
         private static void RefreshMemos()
         {

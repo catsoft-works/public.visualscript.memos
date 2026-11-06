@@ -186,13 +186,6 @@ namespace VisualScript.Editor.Memos
             EditorPrefs.SetString(KeyFavorites, json);
         }
 
-        private static string KeyFavorites
-        {
-            get
-            {
-                int hashProductName = Application.productName.GetHashCode();
-                return $"{KEY_MEMO_NAMES_FAVORITES}:{hashProductName}";
-            }
-        }
+        private static string KeyFavorites => $"{KEY_MEMO_NAMES_FAVORITES}:{Application.productName}";
     }
 }
