@@ -2,7 +2,7 @@
   "name": "works.catsoft.visualscript-memos",
   "version": "1.1.5",
   "displayName": "Visual Script - Memos",
-  "description": "Provides a scratchpad where to write and read temporal values from anywhere",
+  "description": "A scratchpad where to write and read temporal values from anywhere",
   "documentationUrl": "https://docs.visualscript.dev/memos",
   "changelogUrl": "https://docs.visualscript.dev/manual/releases",
   "licensesUrl": "https://visualscript.dev/terms-of-service",
