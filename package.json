@@ -1,11 +1,11 @@
 {
   "name": "works.catsoft.visualscript-memos",
-  "version": "1.0.4",
+  "version": "1.1.5",
   "displayName": "Visual Script - Memos",
-  "description": "Official support for Memos",
-  "documentationUrl": "https://docs.visualscript.dev",
-  "changelogUrl": "https://visualscript.dev/changelog",
-  "licensesUrl": "https://visualscript.dev/license",
+  "description": "Provides a scratchpad where to write and read temporal values from anywhere",
+  "documentationUrl": "https://docs.visualscript.dev/memos",
+  "changelogUrl": "https://docs.visualscript.dev/manual/releases",
+  "licensesUrl": "https://visualscript.dev/terms-of-service",
   "dependencies": {
     "com.unity.ugui": "2.0.0",
     "com.unity.modules.ui": "1.0.0",
